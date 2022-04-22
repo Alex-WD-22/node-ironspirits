@@ -17,56 +17,35 @@ mongoose /// connecting to dadabase | Name of DB
 
 
 
-app.get("/", (req, res, next) => {
-    res.render('home')
+  app.get("/", (req, res, next) => {
+    res.render("home");
 });
+
 
 app.get("/about", (req, res, next) => {
-    res.render('about')
+    res.render("about");
 });
 
 
-app.get('/contact', (req, res, next) => {
-    res.render('contact')
+app.get("/contact", (req, res, next) => {
+    res.render("contact");
+});
+
+
+
+app.get("/products/:productId", (req, res, next) => {
+    Product.findById(req.params.productId)
+        .then(productDetails => {
+            res.render("product", productDetails);
+        })
+        .catch(error => console.log("error getting product from DB", error));
 })
 
 
-app.get("/limoncello", (req, res, next) => {
-    // res.render("view", info);
-
-    Product.findOne({ title: 'Limoncello' })
-        .then(prodcutDetails => {
-            res.render("product", prodcutDetails)
-        })
-        .catch(err => {
-            console.log('getting product from DB', err)
-        })
-});
-
-app.get("/whisky", (req, res, next) => {
-
-    Product.findOne({ title: 'whisky' })
-    .then(productDetails => {
-        res.render("product", productDetails)
-    })
-    .catch(err => {
-        console.log('getting product from DB', err)
-    })
-});
-
-app.get("/tequila", (req, res, next) => {
-    Product.findOne({ title: 'tequila' })
-    .then(productDetails => {
-
-        
-        res.render("product", productDetails)
-    })
-    .catch(err => {
-        console.log('getting product from DB', err)
-    })
-});
 
 
 app.listen(3000, () => {
     console.log("server listening to requests...")
 });
+
+
